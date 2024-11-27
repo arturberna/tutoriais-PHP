@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Criando um Carrinho em PHP</title>
+    <!-- Prism CSS -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2a2a3b;
+            color: #ffffff;
+            margin: 0;
+        }
+        .header {
+            background: linear-gradient(135deg, #8892bf, #344a6c);
+            padding: 50px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.2rem;
+        }
+        .breadcrumb {
+            background: none;
+            padding: 10px 20px;
+        }
+        .breadcrumb-item a {
+            color: #8892bf;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .step {
+            margin-bottom: 30px;
+        }
+        .step .icon {
+            background: #6c6ca4;
+            color: white;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .step h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+            color: #8892bf;
+        }
+        pre {
+            background-color: #3a3a4f;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        pre[class*="language-"],
+        code[class*="language-"] {
+            background-color: #3a3a4f; /* Cor de fundo personalizada */
+            
+        }
+        .footer {
+            background-color: #1b1b2b;
+            color: #aaa;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer a {
+            color: #8892bf;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .spacer-bottom{
+            margin-bottom: 30px;
+        }
+        /* Estilo para o contêiner */
+        .code-filename {
+            display: inline-block; /* Permite personalizar o tamanho automaticamente */
+            background-color: #7e7e7e; /* Fundo escuro */
+            color: #f8f8f2; /* Texto claro */
+            font-family: 'Courier New', Courier, monospace; /* Fonte de terminal */
+            font-size: 14px; /* Tamanho da fonte */
+            padding: 0.1em 0.4em; /* Espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
+            margin: 0.5em 0; /* Margem para espaçamento */
+            border: 1px solid #44475a; /* Bordas sutis */
+            max-width: fit-content; /* Ajusta o tamanho ao conteúdo */
+            word-wrap: break-word; /* Evita overflow para nomes longos */
+        }
+
+        /* Adicionar uma aparência de extensão */
+        .code-filename .extension {
+            color: #8be9fd; /* Azul claro para destacar a extensão */
+            font-weight: bold;
+        }
+
+        /* Hover para um efeito interativo */
+        .code-filename:hover {
+            background-color: #44475a; /* Fundo muda no hover */
+            color: #50fa7b; /* Verde claro no hover */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h1><i class="fas fa-shopping-cart"></i> Tutorial: Criando um Carrinho em PHP</h1>
+        <p>Aprenda a implementar a funcionalidade de um carrinho de compras utilizando PHP passo a passo.</p>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="#tutorials"><i class="fas fa-book"></i> Tutoriais</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-shopping-cart"></i> Carrinho</li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <div class="content container">
+        <h2 class="section-title">Passos para Criar o Carrinho</h2>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fas fa-code"></i></div>
+                <h3>1. Configurando o Ambiente</h3>
+            </div>
+            <p>Certifique-se de ter um servidor local como o XAMPP, WAMP ou MAMP configurado e funcionando. Em seguida faça:</p>
+            <ul>
+                <li>Inicie o servidor Apache.</li>
+                <li>Acesse o diretório raiz (htdocs ou equivalente) e crie uma pasta chamada <strong>carrinho</strong>.</li>
+                <li>Abra o diretório com o  VS Code.</li>
+            </ul>
+
+        </div>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fas fa-database"></i></div>
+                <h3>2. Criando o Banco de Dados</h3>
+            </div>
+            <ul>
+                <li>Crie um banco de dados chamado carrinho.</li>
+                <li>Execute os seguintes comandos para criar as tabelas:</li>
+            </ul>
+            
+            <p>Tabela <span>produto</span></p>
+            <pre> <code class="language-sql">            
+CREATE TABLE produto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    estoque INT NOT NULL,
+    imagem VARCHAR(200)
+);
+</code>    
+            </pre>
+        <p>Tabela <span>carrinho</span></p>
+        <pre><code class="language-sql"> 
+CREATE TABLE carrinho (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES produto(id)
+);
+</code>                
+        </pre>
+        <h4>Inserindo dados na tabela <span>produto</span></h4>
+        <pre> <code class="language-sql">
+INSERT INTO produto (nome, preco, estoque,imagem) VALUES
+('caneca', 10.00, 100,'imagens/caneca.jpg'),
+('camisa', 15.00, 50,'imagens/camisa.jpg'),
+('almofada', 20.00, 30,'imagens/almofada.jpg');
+</code>
+       </pre>
+       <p>O arquivo completo pode ser encontrado neste <a href="">link</a></p>
+        <h4>Conexão com o Banco de dados com PHP</h4>
+        <ul>
+            
+            <li>Crie um arquivo chamado <div class="code-filename">
+                banco<span class="extension">.php</span>
+            </div></li>
+            <li>Adicione o seguinte código:</li>
+        </ul>
+        <pre> <code class="language-php">
+
+        
+&lt;?php
+class Banco
+{
+    //colocar o nome do banco de dados que foi criado
+    private static $dbNome = 'carrinho';
+    private static $dbHost = 'localhost';
+    private static $dbUsuario = 'root';
+    private static $dbSenha = '';
+   
+    private static $cont = null;
+    
+    public function __construct() 
+    {
+        die('A função Init nao é permitido!');
+    }
+    
+    public static function conectar()
+    {
+        if(null == self::$cont)
+        {
+            try
+            {
+                self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbNome, self::$dbUsuario, self::$dbSenha); 
+            }
+            catch(PDOException $exception)
+            {
+                die($exception->getMessage());
+            }
+        }
+        return self::$cont;
+    }
+    
+    public static function desconectar()
+    {
+        self::$cont = null;
+    }
+}
+
+?&gt;
+</code>                            
+        </pre>
+        <p>O aquivo completo pode ser encontrado <a href="https://github.com/arturberna/carrinho-PHP/blob/main/banco.php">aqui</a></p>
+        </div>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fa-solid fa-store"></i></div>
+                <h3>3. Exibindo produtos</h3>
+            </div>
+            <p>Crie um arquivo chamado <span class="code-filename">
+                index<span class="extension">.php</span>
+            </span>. Neste arquivo serão exibidos os produtos na forma de uma galeria, contendo uma imagem, nome, valor e um botão para adicionar ao carrinho</p>
+            
+            <ul>
+                <li>Os produtos serão carregados do banco de dados.</li>
+                
+                        
+                <pre><code class="language-php">
+                            
+include 'banco.php';
+$pdo = Banco::conectar();
+$sql = 'SELECT * FROM produtos';
+$result = $pdo->query($sql);
+$rows = $result->fetchAll(PDO::FETCH_ASSOC);
+
+
+                        </code></pre>
+                        <li>Exibição num grid.</li>
+                        <pre><code class="language-php">
+                            
+&lt;?php foreach ($produto as $product): ?&gt;
+    &lt;div class="card"&gt;
+        &lt;img width="200" src="&lt;?= $product['imagem']; ?&gt;" alt="&lt;?= $product['nome']; ?&gt;"&gt;
+        &lt;h2&gt;&lt;?= $product['nome']; ?&gt;&lt;/h2&gt;
+        &lt;p class="preco"&gt;R$ &lt;?= number_format($product['preco'], 2, ',', '.'); ?&gt;&lt;/p&gt;
+        &lt;form action="processamento.php" method="post"&gt;
+            &lt;input type="hidden" name="id_produto" value="&lt;?= $product['id']; ?&gt;"&gt;
+            &lt;input type="hidden" name="quantidade" value="1"&gt;
+            &lt;button type="submit"&gt;
+                &lt;i&gt;🛒&lt;/i&gt; Adicionar ao Carrinho
+            &lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;?php endforeach; ?&gt;
+                                
+</code></pre>
+                        
+                
+                
+            </ul>
+            <p>O aquivo completo pode ser encontrado <a href="https://github.com/arturberna/carrinho-PHP/blob/main/index.php">aqui</a></p>
+            
+            
+            
+           
+</div>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fas fa-cart-plus"></i></div>
+                <h3>4. Adicionando Produtos ao Carrinho</h3>
+            </div>
+            <p>Crie um arquivo chamado <span class="code-filename">
+                processamento<span class="extension">.php</span>
+            </span> que conterá as seguintes funcionalidades:</p>
+            <ul>
+                
+                <li>Receber os parâmetros do post do index.php</li>
+                <pre><code class="language-php">
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_produto = $_POST['id_produto'];
+    $quantidade = $_POST['quantidade'];
+                </code></pre>
+                <li>Verificar se o produto existe e se há estoque suficiente </li>
+                <pre><code class="language-php">
+$pdo = Banco::conectar();
+// Verificar se o produto existe e se há estoque suficiente
+$stmt = $pdo->prepare("SELECT * FROM produto WHERE id = ?");
+$stmt->execute([$id_produto]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($product && $product['estoque'] >= $quantidade) {                    
+                </code></pre>
+                <li>Cria uma linha para a tabela carrinho</li>
+                <pre><code class="language-php">
+$stmt = $pdo->prepare("INSERT INTO carrinho (id_produto, quantidade) VALUES (?, ?)");
+$stmt->execute([$id_produto, $quantidade]);
+                </code></pre>
+                <li>Atualiza o estoque e redireciona para a página do carrinho.</li>
+                <pre><code class="language-php">
+$stmt = $pdo->prepare("UPDATE produto SET estoque = estoque - ? WHERE id = ?");
+$stmt->execute([$quantidade, $id_produto]);
+
+header('Location: carrinho.php');
+                </code></pre>
+                
+            </ul>
+            
+        </div>
+        <p>O arquivo completo pode ser encontrado neste <a href="https://github.com/arturberna/carrinho-PHP/blob/main/processamento.php">link</a></p>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                <h3>5. Exibindo o Carrinho</h3>
+            </div>
+            <p>Crie um arquivo chamado <span class="code-filename">
+                carrinho<span class="extension">.php</span>
+            </span> que conterá as seguintes funcionalidades:</p>
+            <ul>
+                
+                <li>Busca todos os carrinhos</li>
+                <pre><code class="language-php">
+$pdo = Banco::conectar();
+$stmt = $pdo->query("SELECT carrinho.*, produto.nome, produto.preco 
+                        FROM carrinho 
+                        JOIN produto ON carrinho.id_produto = produto.id");
+$carrinho = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                </code></pre>
+                <li>Exibe os itens do carrinho numa tabela.</li>
+                <pre><code class="language-php">
+&lt;tr&gt;
+    &lt;th&gt;Produto&lt;/th&gt;
+    &lt;th&gt;Quantidade&lt;/th&gt;
+    &lt;th&gt;Preço Unitário&lt;/th&gt;
+    &lt;th&gt;Subtotal&lt;/th&gt;
+&lt;/tr&gt;
+&lt;?php $total = 0; ?&gt;
+&lt;?php foreach ($carrinho as $item): ?&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;?= $item['nome']; ?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;?= $item['quantidade']; ?&gt;&lt;/td&gt;
+    &lt;td&gt;R$ &lt;?= number_format($item['preco'], 2, ',', '.'); ?&gt;&lt;/td&gt;
+    &lt;td&gt;R$ &lt;?= number_format($item['preco'] * $item['quantidade'], 2, ',', '.'); ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+                </code></pre>
+                <li>Calcula e exibe o total.</li>
+                <pre><code class="language-php">
+&lt;?php $total += $item['preco'] * $item['quantidade']; ?&gt;
+&lt;?php endforeach; ?&gt;
+&lt;tr&gt;
+    &lt;td colspan="3"&gt;&lt;strong&gt;Total:&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;R$ &lt;?= number_format($total, 2, ',', '.'); ?&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+                </code></pre>
+               
+            </ul>
+         
+        </div>
+        <p>O arquivo completo pode ser encontrado neste <a href="https://github.com/arturberna/carrinho-PHP/blob/main/carrinho.php">link</a></p>
+        <div class="step">
+            <div class="d-flex align-items-center spacer-bottom">
+                <div class="icon"><i class="fa-solid fa-list-check"></i></div>
+                <h3>6. Testar Sistema</h3>
+            </div>
+            <ul>
+                <li>Navegue até http://localhost/carrinho</li>
+                <li>Adicione itens ao carrinho.</li>
+                <li>Verifique se as ações estão funcionando corretamente.</li>
+                <li>Faça alterações no código, como adicionar validações ou mensagens de erro.</li>
+            </ul>
+            
+        </div>
+    </div>
+    
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2024 Prof Artur Reis. 
+        <br>
+        <a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS do Prism -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js" integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Linguagens adicionais, incluindo PHP -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js" integrity="sha512-6UGCfZS8v5U+CkSBhDy+0cA3hHrcEIlIy2++BAjetYt+pnKGWGzcn+Pynk41SIiyV2Oj0IBOLqWCKS3Oa+v/Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-sql.min.js" integrity="sha512-fmx2W52F+6sZ8IYcsuKsFV0PjADeu32K3PdJGhxCKB+5VRVXpmuKgkfzTsW/B8cy/FPnEOlZX4fP/ZQk057tPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
